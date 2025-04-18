@@ -1,17 +1,21 @@
 import { AuthProvider } from "./context/AuthContext"
-import Navbar from "./layout/Navbar"
-import AppRoutes from "./routes"
+import AppRoutes, { AppRoutesAdmin } from "./routes"
 import { BrowserRouter } from "react-router-dom"
+import { LayoutBase } from "./layout/LayoutBase";
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Navbar />
-        <AppRoutes />
+        <LayoutBase restritoPara={["ADMIN", "DEV"]}>
+          <AppRoutesAdmin />
+        </LayoutBase>
+        <LayoutBase restritoPara={["CLIENTE"]}>
+          <AppRoutes />
+        </LayoutBase>
       </AuthProvider>
     </BrowserRouter>
-  )
+  );
 }
 
 export default App
