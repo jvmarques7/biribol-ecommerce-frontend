@@ -1,6 +1,7 @@
 // src/hooks/useUsuarioLogado.ts
 import { useEffect, useState } from "react";
 import api from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 export type Usuario = {
   id: string;
@@ -12,6 +13,9 @@ export type Usuario = {
 export function useUsuarioLogado() {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [carregando, setCarregando] = useState(true);
+  const paths = "/";
+  const reload = paths.length == 1;
+  const navigate = useNavigate()
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -21,10 +25,15 @@ export function useUsuarioLogado() {
     }
 
     api
-      .get("http://localhost:3000/auth/me", {
+      .get("http://localhost:3000/usuario", {
         headers: { Authorization: `Bearer ${token}` },
       })
-      .then((res) => setUsuario(res.data))
+      .then((res) => {
+        setUsuario(res.data)
+        if(reload){
+          
+        }
+      })
       .catch(() => {
         localStorage.removeItem("token");
         setUsuario(null);

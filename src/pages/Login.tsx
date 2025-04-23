@@ -1,25 +1,35 @@
-import { useState } from "react";
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react"
+import { Link, Navigate, useNavigate } from "react-router-dom"
+import api from "../services/api"
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [erro, setErro] = useState("");
+  const [email, setEmail] = useState("")
+  const [senha, setSenha] = useState("")
+  const [erro, setErro] = useState("")
+  const [usuario, setUsuario] = useState("")
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if(token){
+      navigate("/")
+    }
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setErro("");
 
     try {
-      const response = await axios.post("http://localhost:3000/auth/login", {
+      api.post("http://localhost:3000/auth/login", {
         email,
         senha,
+      }).then((response)=>{
+        localStorage.setItem("token", response.data.token);
+        setUsuario(response.data.usuario)
+        navigate("/"); // redireciona para página inicial
       });
 
-      localStorage.setItem("token", response.data.token);
-      navigate("/"); // redireciona para página inicial
     } catch (err) {
       setErro("E-mail ou senha inválidos.");
     }

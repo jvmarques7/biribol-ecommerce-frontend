@@ -4,6 +4,7 @@ import { Rodape } from "../components/Rodape";
 import { ReactNode } from "react";
 import { Spinner } from "../components/Spinner";
 import { useUsuarioLogado } from "../hooks/useUsuarioLogado";
+import { Breadcrumb } from "../components/Breadcrumb";
 
 interface LayoutBaseProps {
     children: ReactNode;
@@ -11,10 +12,10 @@ interface LayoutBaseProps {
     fallback?: ReactNode; // conteúdo se não tiver acesso
   }
 
-export function LayoutBase({ children, restritoPara, fallback }: LayoutBaseProps) {
+export function LayoutBase({ children, restritoPara }: LayoutBaseProps) {
   const location = useLocation();
-  const hideNavbarRoutes = ["/login", "/cadastro", "/recuperar-senha"];
-  const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
+  const hideAllRoutes = ["/login", "/cadastro", "/recuperar-senha"];
+  const shouldHideAll = hideAllRoutes.includes(location.pathname);
 
   const { usuario, carregando } = useUsuarioLogado(); // hook com loading e user
   // ⏳ Mostra loading enquanto carrega usuário
@@ -43,9 +44,11 @@ export function LayoutBase({ children, restritoPara, fallback }: LayoutBaseProps
 
   return (
     <div className="flex flex-col min-h-screen">
-      {!shouldHideNavbar && <Navbar />}
-        <main className="flex-1">{children}</main>
-      <Rodape />
+      {!shouldHideAll && <Navbar />} 
+        {!shouldHideAll && <Breadcrumb />}
+        <main className="flex-1 min-h-screen">{children}</main>
+      {!shouldHideAll && <Rodape />}
+      
     </div>
   );
 }

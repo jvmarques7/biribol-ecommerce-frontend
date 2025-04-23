@@ -1,6 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import api from "../services/api";
 
 const Cadastro = () => {
   const [nome, setNome] = useState("");
@@ -39,7 +39,7 @@ const Cadastro = () => {
     }
 
     try {
-      await axios.post("http://localhost:3000/auth/cadastro", {
+      await api.post("http://localhost:3000/auth/cadastro", {
         nome,
         email,
         senha,

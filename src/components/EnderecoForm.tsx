@@ -109,7 +109,7 @@ export function EnderecoForm({ onSuccess, defaultValues }: EnderecoFormProps) {
         cidade,
         estado,
         info,
-        pessoaFisica: usuario.pessoaFisica
+        pessoa: usuario.pessoa
       };
 
       try {

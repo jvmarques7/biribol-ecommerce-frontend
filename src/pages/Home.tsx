@@ -1,6 +1,10 @@
-import { Link } from "react-router-dom"
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom"
+import api from "../services/api";
+import { toast } from "sonner";
 
 export default function Home() {
+
   return (
     <div className="relative w-full min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0077b6] to-[#00b4d8] text-white overflow-hidden">
       {/* Fundo com imagem aquática suave */}
